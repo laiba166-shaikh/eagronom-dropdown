@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import DropdownMenu from "./components/DropdownMenu/DropdownMenu";
+import SettingsButton from "./components/SettingsButton/SettingsButton";
+import { connect } from "react-redux";
+import { closeDropdownMenu } from "./redux/DropdownMenu/DropdownMenuActions";
 
-function App() {
+const App = ({ open, closeDropdownMenu }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className="container"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          closeDropdownMenu();
+        }
+      }}
+    >
+      <SettingsButton />
+      {open && <DropdownMenu />}
     </div>
   );
-}
-
-export default App;
+};
+const mapState = (state) => ({
+  open: state.dropDownMenu.open,
+});
+const actions = {
+  closeDropdownMenu,
+};
+export default connect(mapState, actions)(App);
